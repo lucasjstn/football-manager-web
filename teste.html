@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário Exemplo</title>
+</head>
+<body>
+    <form id="meuFormulario">
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="nome">
+        <br>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email">
+        <br>
+        <button type="submit">Enviar</button>
+    </form>
+
+    <script>
+        const form = document.getElementById('meuFormulario');
+
+        form.addEventListener('submit', (event) => {
+            event.preventDefault(); // Previne o envio padrão do formulário
+
+            const formData = new FormData(form); // Cria um objeto FormData com os dados do formulário
+            const formJSON = Object.fromEntries(formData.entries()); // Converte FormData para um objeto JSON
+
+            console.log(JSON.stringify(formJSON)); // Converte o objeto JSON em string e imprime no console
+
+            // Enviar o JSON usando fetch
+            fetch('URL_DO_SEU_SERVIDOR', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json', // Define o tipo de conteúdo como JSON
+                },
+                body: JSON.stringify(formJSON), // Converte o objeto JSON para uma string JSON
+            })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error('Erro:', error));
+        });
+    </script>
+</body>
+</html>
